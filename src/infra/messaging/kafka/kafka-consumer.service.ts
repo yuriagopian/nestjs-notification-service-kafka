@@ -1,8 +1,9 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ServerKafka } from '@nestjs/microservices';
-import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 config();
+import { ConfigService } from '@nestjs/config';
+const configService = new ConfigService();
 
 @Injectable()
 export class KafkaConsumerService
@@ -16,8 +17,8 @@ export class KafkaConsumerService
         brokers: ['capital-reptile-12520-us1-kafka.upstash.io:9092'],
         sasl: {
           mechanism: 'scram-sha-256',
-          username: process.env.KAFKA_USERNAME || 'teste',
-          password: process.env.KAFKA_USERNAME || 'teste',
+          username: String(process.env.KAFKA_USERNAME),
+          password: String(process.env.KAFKA_USERNAME),
         },
         ssl: true,
       },
